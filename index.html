@@ -10,9 +10,20 @@
 
   <div class="chat-container">
     <header class="chat-header">
-      <h2>Local AI Assistant</h2>
-      <button id="theme-toggle">🌙 Dark/Light mode</button> <!-- Button for toggling dark/light mode -->
-    </header>
+  <h2>Local AI Assistant</h2>
+  
+  <div class="header-actions">
+    <!-- Model Selector Dropdown (#15) -->
+    <select id="model-select" class="model-select" aria-label="Select local AI model">
+      <option value="llama3.2:1b" selected>Llama 3.2 (1B)</option>
+      <option value="tinyllama">TinyLlama</option>
+      <option value="phi3:mini">Phi-3 Mini</option>
+    </select>
+
+    <button id="theme-toggle">🌙 Dark/Light mode</button>
+  </div>
+</header>
+    
 
     <div id="chat-window" class="chat-window">
       <div class="message ai">Hello :) I am your local AI. How can I help you today?</div>

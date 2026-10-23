@@ -2,6 +2,7 @@ const chatWindow = document.getElementById('chat-window');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const themeToggle = document.getElementById('theme-toggle');
+const modelSelect = document.getElementById('model-select');
 
 // Toggle the dark theme when the user clicks the theme button
 themeToggle.addEventListener('click', () => {
@@ -17,6 +18,7 @@ userInput.addEventListener('keypress', (event) => {
 
 async function sendMessage() {
   const text = userInput.value.trim();
+  const selectedModel = modelSelect ? modelSelect.value : 'llama3.2:1b';
   if (!text) return;
 
   // 1. Render User Message & clear input
@@ -28,13 +30,16 @@ async function sendMessage() {
   showTypingIndicator();
 
   try {
-    // 3. Call Plain Java Backend endpoint
+    // 3. Call Java Backend endpoint with dynamic model parameter
     const response = await fetch('http://localhost:8080/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: text }),
+      body: JSON.stringify({ 
+        message: text,
+        model: selectedModel 
+      }),
     });
 
     if (!response.ok) {
@@ -71,6 +76,9 @@ function appendMessage(text, senderClass) {
 function toggleInputState(isDisabled) {
   userInput.disabled = isDisabled;
   sendBtn.disabled = isDisabled;
+  if (modelSelect) {
+    modelSelect.disabled = isDisabled;
+  }
 }
 
 /*added function*/
@@ -87,3 +95,4 @@ function removeTypingIndicator() {
   const indicator = document.getElementById('typing-indicator');
   if (indicator) indicator.remove();
 }
+
